@@ -33,9 +33,9 @@ jobs:
       with:
         context: .
         push: true
-        tags: gnosischain/lighthouse:latest
+        tags: gnosischain/lighthouse:stable
         build-args: |
-            UPSTREAM_VERSION=latest
+            UPSTREAM_VERSION=stable
             BEACON_API_PORT=3500
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new
