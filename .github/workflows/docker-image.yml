@@ -48,10 +48,7 @@ jobs:
     - run: docker push gnosischain/${{ env.CLIENT }}-beacon:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }} 
     - run: docker push gnosischain/${{ env.CLIENT }}-validator:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }}
 
-    - name: Move cache
-      run: |
-           rm -rf /tmp/.buildx-cache
-           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
 
 
 
