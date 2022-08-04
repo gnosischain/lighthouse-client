@@ -1,20 +1,31 @@
-docker build -t gnosischain/lighthouse:latest --build-arg UPSTREAM_VERSION=latest --build-arg BEACON_API_PORT=3500 .
-docker push gnosischain/lighthouse:latest   
+# Starting the container in beacon mode
 
-
-
-# Starting the container in beacon mode 
 ```
-lighthouse
---testnet-dir="/custom_config_data"
-beacon
---boot-nodes="{{ bootnode_enrs | join(',') }}"
-```
+Dockerhub: 
+https://hub.docker.com/repository/docker/gnosischain/lighthouse-beacon
 
+
+To run: 
+
+docker run gnosischain/prysm-beacon:{upstream_version}-{testnet}
+
+i.e. 
+
+docker run gnosischain/lighthouse-beacon:latest-chiado
+
+```
 
 # Starting the container in validator mode
+
 ```
-lighthouse
---testnet-dir="/custom_config_data"
-vc
+
+Dockerhub: 
+https://hub.docker.com/repository/docker/gnosischain/lighthouse-validator
+
+To run: 
+
+docker run gnosischain/lighthouse-{client_type}:{upstream_version}-{testnet}
+i.e.
+docker run gnosischain/lighthouse-validator:latest-chiado
+
 ```
