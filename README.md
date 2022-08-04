@@ -1,4 +1,6 @@
 
+# Lighthouse Client - Docker
+
 This projects builds a customized version of the lighthouse client with Gnosischain modifications. 
 
 
@@ -10,9 +12,12 @@ Images are referenced under the following pattern.
 gnosischain/{client_provider}-{node_type}:{upstream_version}-{testnet}
 ```
 
-i.e. 
+i.e.
 
+```
 docker pull gnosischain/lighthouse-beacon:v2.5.1-chiado 
+```
+
 
 We provide lighthouse as validator and beacon. 
 
