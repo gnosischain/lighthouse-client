@@ -3,6 +3,11 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
+  
+env:
+  UPSTREAM_VERSION: latest
+  NETWORK: chiado
+  CLIENT: lighthouse
 
 jobs:
   push_to_registry:
@@ -28,30 +33,23 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME  }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN  }}
         
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: true
-        tags: gnosischain/lighthouse:stable
-        build-args: |
-            UPSTREAM_VERSION=stable
-            BEACON_API_PORT=3500
-        cache-from: type=local,src=/tmp/.buildx-cache
-        cache-to: type=local,dest=/tmp/.buildx-cache-new
+      # {upstream_image}{testnet}{version_upstream}
+    - run: >
+          docker build .
+          --tag gnosischain/${{ env.CLIENT }}-beacon:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }}
+          --build-arg UPSTREAM_VERSION=${{ env.UPSTREAM_VERSION }}
+          -f beacon.Dockerfile
+    - run: >
+          docker build .
+          --tag gnosischain/${{ env.CLIENT }}-validator:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }}
+          --build-arg UPSTREAM_VERSION=${{ env.UPSTREAM_VERSION }}
+          -f validator.Dockerfile
+    - run: docker push gnosischain/${{ env.CLIENT }}-beacon:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }} gnosischain/${{ env.CLIENT }}-validator:${{ env.UPSTREAM_VERSION }}-${{ NETWORK }}
+
     - name: Move cache
       run: |
-        rm -rf /tmp/.buildx-cache
-        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-
-
-
-
-
-
-
-
+           rm -rf /tmp/.buildx-cache
+           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
 
 
