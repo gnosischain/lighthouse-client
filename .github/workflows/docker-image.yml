@@ -44,7 +44,9 @@ jobs:
           --tag gnosischain/${{ env.CLIENT }}-validator:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }}
           --build-arg UPSTREAM_VERSION=${{ env.UPSTREAM_VERSION }}
           -f validator.Dockerfile
-    - run: docker push gnosischain/${{ env.CLIENT }}-beacon:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }} gnosischain/${{ env.CLIENT }}-validator:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }}
+
+    - run: docker push gnosischain/${{ env.CLIENT }}-beacon:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }} 
+    - run: docker push gnosischain/${{ env.CLIENT }}-validator:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }}
 
     - name: Move cache
       run: |
