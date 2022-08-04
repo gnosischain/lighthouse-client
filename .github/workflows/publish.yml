@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
   
 env:
-  UPSTREAM_VERSION: latest
+  UPSTREAM_VERSION: v2.5.1
   NETWORK: chiado
   CLIENT: lighthouse
 
