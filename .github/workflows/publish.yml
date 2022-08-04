@@ -47,7 +47,7 @@ jobs:
           -f validator.Dockerfile
 
       - run: >
-          docker push gnosischain/lighthouse-beacon:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }}
+          docker push gnosischain/lighthouse-beacon:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }} 
           docker push gnosischain/lighthouse-beacon:latest-${{ env.NETWORK }}
           docker push gnosischain/lighthouse-validator:${{ env.UPSTREAM_VERSION }}-${{ env.NETWORK }}
           docker push gnosischain/lighthouse-validator:latest-${{ env.NETWORK }}
