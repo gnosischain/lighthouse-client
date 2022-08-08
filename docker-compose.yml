@@ -27,7 +27,7 @@ services:
       - ./validator-data:/var/lib/data
     command: >
       --suggested-fee-recipient ${FEE_RECIPIENT}
-      --graffiti gnosischain/lighthouse
+      --graffiti ${GRAFFITI}
       --datadir /var/lib/data
       --beacon-nodes http://consensus:4000
 
