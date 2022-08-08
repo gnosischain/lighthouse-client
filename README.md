@@ -5,7 +5,9 @@ This projects builds a customized version of the lighthouse client with Gnosisch
 - [gnosischain/lighthouse-beacon](https://hub.docker.com/repository/docker/gnosischain/lighthouse-beacon)
 - [gnosischain/lighthouse-validator](https://hub.docker.com/repository/docker/gnosischain/lighthouse-validator)
 
-Images are referenced under the following pattern `gnosischain/{client_provider}-{node_type}:{upstream_version}-{testnet}` for example
+Images are referenced under the following pattern `gnosischain/{client_provider}-{node_type}:{upstream_version}-{testnet}` 
+
+Pulling the latest lighthouse beacon client on chiado testnet would look like this: 
 
 ```
 docker pull gnosischain/lighthouse-beacon:latest-chiado
