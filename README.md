@@ -1,70 +1,55 @@
-
 # Lighthouse Client - Docker
 
-This projects builds a customized version of the lighthouse client with Gnosischain modifications. 
+This projects builds a customized version of the lighthouse client with Gnosischain modifications. Those include the integrations with different testnets.
 
+- [gnosischain/lighthouse-beacon](https://hub.docker.com/repository/docker/gnosischain/lighthouse-beacon)
+- [gnosischain/lighthouse-validator](https://hub.docker.com/repository/docker/gnosischain/lighthouse-validator)
 
-## Image tagging 
-
-Images are referenced under the following pattern. 
-
-```
-gnosischain/{client_provider}-{node_type}:{upstream_version}-{testnet}
-```
-
-i.e.
+Images are referenced under the following pattern `gnosischain/{client_provider}-{node_type}:{upstream_version}-{testnet}` for example
 
 ```
-docker pull gnosischain/lighthouse-beacon:v2.5.1-chiado 
+docker pull gnosischain/lighthouse-beacon:latest-chiado
 ```
 
+## Lighthouse reference
 
-We provide lighthouse as validator and beacon. 
+- General: https://lighthouse-book.sigmaprime.io/
 
-## Dockerhub 
+# Starting Lighthouse in Chiado testnet
 
-[Beacon image](https://hub.docker.com/repository/docker/gnosischain/lighthouse-beacon)  
-
-[Validator image](https://hub.docker.com/repository/docker/gnosischain/lighthouse-validator)
-  
-
-
-## More information on how the lighthouse client works and can be customized can be found here: 
-https://lighthouse-book.sigmaprime.io/advanced.html
-
-
-
-# Starting lighthouse in beacon mode
-As an example we can run with version v.2.5.1 in testnet chiado as beacon: 
-
+1. Add an `.env` file with your fee recepient and graffiti
 
 ```
-docker pull gnosischain/lighthouse-beacon:v2.5.1-chiado  
-docker run gnosischain/lighthouse-beacon:v2.5.1-chiado 
+FEE_RECIPIENT=0x0000000000000000000000000000000000000000
+GRAFFITI=gnosischain/lighthouse
 ```
 
-Customization through flags: 
-```
-docker run gnosischain/lighthouse-beacon:latest-chiado --http-address 0.0.0.0 --http 
-```
+2. Add your keystores in `./keystores` and their password in a file `./keystores/password.txt` to get this file structure:
 
-# Starting lighthouse in validator mode
+Note, keystores MUST follow one of these file names
 
-As an example we can run with version v.2.5.1 in testnet chiado as validator:
+- `keystore-m_12381_3600_[0-9]+_0_0-[0-9]+.json` The format exported by the `eth2.0-deposit-cli` library ([source](https://github.com/sigp/lighthouse/blob/2983235650811437b44199f9c94e517e948a1e9b/common/account_utils/src/validator_definitions.rs#L402))
+- `keystore-[0-9]+.json` The format exported by Prysm ([source](https://github.com/sigp/lighthouse/blob/2983235650811437b44199f9c94e517e948a1e9b/common/account_utils/src/validator_definitions.rs#L411))
 
 ```
-docker pull gnosischain/lighthouse-validator:v2.5.1-chiado  
-docker run gnosischain/lighthouse-validator:v2.5.1-chiado 
-
+.
+├── docker-compose.yml
+├── .env
+├── jwtsecret
+└── keystores/
+    ├── keystore-001.json
+    ├── keystore-002.json
+    └── password.txt
 ```
 
-Customization through flags: 
-
-
-```
-docker run gnosischain/lighthouse-validator:latest-chiado --http-address 0.0.0.0 --http 
+3. Run `./setup.sh` to create a new `./jwtsecret` token + import your validators.
 
 ```
+./setup.sh
+```
 
+4. Start `docker-compose.yml` services from this repository
 
-
+```
+docker-compose up -d
+```

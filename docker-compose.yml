@@ -1,0 +1,57 @@
+version: "3"
+services:
+  consensus:
+    image: gnosischain/lighthouse-beacon:latest-chiado
+    restart: always
+    stop_grace_period: 1m
+    volumes:
+      - consensus-data:/var/lib/consensus
+      - ./jwtsecret:/jwtsecret
+    ports:
+      - 9000:9000/tcp
+      - 9000:9000/udp
+    command: >
+      --execution-jwt /jwtsecret
+      --execution-endpoint http://execution:8551
+      --datadir /var/lib/data
+      --http
+      --http-address=0.0.0.0
+      --http-port=4000
+      --port 9000
+      --listen-address=0.0.0.0
+
+  validator:
+    image: gnosischain/lighthouse-validator:latest-chiado
+    restart: always
+    volumes:
+      - ./validator-data:/var/lib/data
+    command: >
+      --suggested-fee-recipient ${FEE_RECIPIENT}
+      --graffiti gnosischain/lighthouse
+      --datadir /var/lib/data
+      --beacon-nodes http://consensus:4000
+
+  execution:
+    image: gnosischain/nethermind:latest-chiado
+    restart: always
+    stop_grace_period: 1m
+    volumes:
+      - execution-data:/var/lib/execution
+      - ./jwtsecret:/jwtsecret
+    ports:
+      - 30303:30303/tcp
+      - 30303:30303/udp
+    command: >
+      --JsonRpc.JwtSecretFile=/jwtsecret
+      --JsonRpc.AdditionalRpcUrls="http://localhost:8551|http;ws|net;eth;subscribe;engine;web3;client"
+      --JsonRpc.Enabled=true
+      --JsonRpc.EnabledModules="net,eth,consensus,subscribe,web3,admin,txpool"
+      --JsonRpc.Host=0.0.0.0
+      --datadir=/var/lib/execution
+      --Network.DiscoveryPort=30303
+      --Network.P2PPort=30303
+
+volumes:
+  consensus-data:
+  validator-data:
+  execution-data:
