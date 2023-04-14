@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 
 env:
-  UPSTREAM_VERSION: v3.3.0
+  UPSTREAM_VERSION: v4.1.0
   NETWORK: chiado
 
 jobs:
