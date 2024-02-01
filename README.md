@@ -1,5 +1,10 @@
 # Lighthouse Client - Docker
 
+## UPDATES
+This repository has been archived, please refer to https://github.com/sigp/lighthouse for further reference.
+
+---
+
 This projects builds a customized version of the lighthouse client with Gnosischain modifications. Those include the integrations with different testnets.
 
 - [gnosischain/lighthouse-beacon](https://hub.docker.com/repository/docker/gnosischain/lighthouse-beacon)
